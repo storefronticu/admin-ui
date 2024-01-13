@@ -24,7 +24,8 @@ const PublicLayout = ({ children }: PropsWithChildren) => {
 const Logo = () => {
   return (
     <div className="w-5xlarge h-5xlarge flex items-center justify-center rounded-full bg-gradient-to-t from-[#26292B] via-[#151718] to-[#151718]">
-      <SVG />
+      {/* <SVG /> */}
+      <img src="https://firebasestorage.googleapis.com/v0/b/fir-d6285.appspot.com/o/Storefront%2012%20Storefront%20orange%20%26%20white.png?alt=media&token=1bc8f0e2-9426-48e3-95a3-85791cb0afa1" alt="storefront logo" />
     </div>
   )
 }
