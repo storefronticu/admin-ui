@@ -1,82 +1,64 @@
-import clsx from "clsx"
-import { useEffect, useState } from "react"
-import { useTranslation } from "react-i18next"
-import FilterDropdownContainer from "../../../components/molecules/filter-dropdown/container"
-import FilterDropdownItem from "../../../components/molecules/filter-dropdown/item"
-import SaveFilterItem from "../../../components/molecules/filter-dropdown/save-field"
-import TabFilter from "../../../components/molecules/filter-tab"
-import PlusIcon from "../../fundamentals/icons/plus-icon"
+import clsx from "clsx";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import FilterDropdownContainer from "../../../components/molecules/filter-dropdown/container";
+import FilterDropdownItem from "../../../components/molecules/filter-dropdown/item";
+import SaveFilterItem from "../../../components/molecules/filter-dropdown/save-field";
+import TabFilter from "../../../components/molecules/filter-tab";
+import PlusIcon from "../../fundamentals/icons/plus-icon";
 
-const dynamicFilters = ["normal", "dynamic"]
+const dynamicFilters = ["normal", "dynamic"];
 
-const dateFilters = [
-  "is in the last",
-  "is older than",
-  "is after",
-  "is before",
-  "is equal to",
-]
+const dateFilters = ["is in the last", "is older than", "is after", "is before", "is equal to"];
 
-const DiscountFilters = ({
-  tabs,
-  activeTab,
-  onTabClick,
-  onSaveTab,
-  onRemoveTab,
-  filters,
-  submitFilters,
-  clearFilters,
-}) => {
-  const { t } = useTranslation()
-  const [tempState, setTempState] = useState(filters)
-  const [name, setName] = useState("")
+const DiscountFilters = ({ tabs, activeTab, onTabClick, onSaveTab, onRemoveTab, filters, submitFilters, clearFilters }) => {
+  const { t } = useTranslation();
+  const [tempState, setTempState] = useState(filters);
+  const [name, setName] = useState("");
 
   const handleRemoveTab = (val) => {
     if (onRemoveTab) {
-      onRemoveTab(val)
+      onRemoveTab(val);
     }
-  }
+  };
 
   const handleSaveTab = () => {
     if (onSaveTab) {
-      onSaveTab(name, tempState)
+      onSaveTab(name, tempState);
     }
-  }
+  };
 
   const handleTabClick = (tabName: string) => {
     if (onTabClick) {
-      onTabClick(tabName)
+      onTabClick(tabName);
     }
-  }
+  };
 
   useEffect(() => {
-    setTempState(filters)
-  }, [filters])
+    setTempState(filters);
+  }, [filters]);
 
   const onSubmit = () => {
-    submitFilters(tempState)
-  }
+    submitFilters(tempState);
+  };
 
   const onClear = () => {
-    clearFilters()
-  }
+    clearFilters();
+  };
 
   const setSingleFilter = (filterKey, filterVal) => {
     setTempState((prevState) => ({
       ...prevState,
       [filterKey]: filterVal,
-    }))
-  }
+    }));
+  };
 
-  const numberOfFilters = Object.entries(filters).reduce(
-    (acc, [key, value]) => {
-      if (value?.open) {
-        acc = acc + 1
-      }
-      return acc
-    },
-    0
-  )
+  const numberOfFilters = Object.entries(filters).reduce((acc, [key, value]) => {
+    if (value?.open) {
+      acc = acc + 1;
+    }
+    return acc;
+  }, 0);
 
   return (
     <div className="flex space-x-1">
@@ -86,15 +68,13 @@ const DiscountFilters = ({
         triggerElement={
           <button
             className={clsx(
-              "rounded-rounded focus-visible:shadow-input focus-visible:border-violet-60 flex items-center space-x-1 focus-visible:outline-none"
+              "rounded-rounded focus-visible:shadow-input focus-visible:border-orange-60 flex items-center space-x-1 focus-visible:outline-none"
             )}
           >
             <div className="rounded-rounded bg-grey-5 border-grey-20 inter-small-semibold flex h-6 items-center border px-2">
               {t("discount-filter-dropdown-filters", "Filters")}
               <div className="text-grey-40 ml-1 flex items-center rounded">
-                <span className="text-violet-60 inter-small-semibold">
-                  {numberOfFilters ? numberOfFilters : "0"}
-                </span>
+                <span className="text-orange-60 inter-small-semibold">{numberOfFilters ? numberOfFilters : "0"}</span>
               </div>
             </div>
             <div className="rounded-rounded bg-grey-5 border-grey-20 inter-small-semibold flex items-center border p-1">
@@ -118,11 +98,7 @@ const DiscountFilters = ({
           open={tempState.date.open}
           setFilter={(val) => setSingleFilter("date", val)}
       /> */}
-        <SaveFilterItem
-          saveFilter={handleSaveTab}
-          name={name}
-          setName={setName}
-        />
+        <SaveFilterItem saveFilter={handleSaveTab} name={name} setName={setName} />
       </FilterDropdownContainer>
       {tabs &&
         tabs.map((t) => (
@@ -136,7 +112,7 @@ const DiscountFilters = ({
           />
         ))}
     </div>
-  )
-}
+  );
+};
 
-export default DiscountFilters
+export default DiscountFilters;

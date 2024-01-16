@@ -176,7 +176,7 @@
   }
 
   .radio-outer-ring > span.indicator[data-state="checked"] {
-    @apply rounded-circle shadow-violet-60 shadow-[0_0_0_2px];
+    @apply rounded-circle shadow-orange-60 shadow-[0_0_0_2px];
   }
 
   .bold-active-item + span {
@@ -247,7 +247,7 @@
   }
 
   .badge-primary {
-    @apply bg-violet-60 text-violet-60 bg-opacity-10;
+    @apply bg-orange-60 text-orange-60 bg-opacity-10;
   }
 
   .badge-danger {
@@ -287,11 +287,11 @@
   }
 
   .btn-primary {
-    @apply bg-violet-60 text-grey-0 active:bg-violet-70 disabled:bg-grey-20  disabled:text-grey-40 hover:bg-violet-50;
+    @apply bg-orange-60 text-grey-0 active:bg-orange-70 disabled:bg-grey-20  disabled:text-grey-40 hover:bg-orange-50;
   }
 
   .btn-secondary {
-    @apply bg-grey-0 text-grey-90 border-grey-20 hover:bg-grey-5 active:bg-grey-5 active:text-violet-60 focus:border-violet-60  disabled:bg-grey-0 disabled:text-grey-30 border;
+    @apply bg-grey-0 text-grey-90 border-grey-20 hover:bg-grey-5 active:bg-grey-5 active:text-orange-60 focus:border-orange-60  disabled:bg-grey-0 disabled:text-grey-30 border;
   }
 
   .btn-danger {
@@ -303,7 +303,7 @@
   }
 
   .btn-ghost {
-    @apply text-grey-90 hover:bg-grey-5 active:bg-grey-5 active:text-violet-60 focus:border-violet-60  disabled:text-grey-30 bg-transparent disabled:bg-transparent;
+    @apply text-grey-90 hover:bg-grey-5 active:bg-grey-5 active:text-orange-60 focus:border-orange-60  disabled:text-grey-30 bg-transparent disabled:bg-transparent;
   }
 
   .btn-primary-large {
@@ -376,7 +376,7 @@
     }
     .chosen,
     .react-datepicker__day--keyboard-selected {
-      @apply bg-violet-60 text-grey-0 inter-base-semibold leading-none !important;
+      @apply bg-orange-60 text-grey-0 inter-base-semibold leading-none !important;
     }
   }
 

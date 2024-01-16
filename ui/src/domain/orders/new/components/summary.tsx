@@ -1,140 +1,124 @@
-import clsx from "clsx"
-import {
-  useAdminGetDiscountByCode,
-  useAdminShippingOptions,
-} from "medusa-react"
-import { useContext, useEffect, useMemo, useState } from "react"
-import { useWatch } from "react-hook-form"
-import { useTranslation } from "react-i18next"
-import Avatar from "../../../../components/atoms/avatar"
-import Button from "../../../../components/fundamentals/button"
-import CrossIcon from "../../../../components/fundamentals/icons/cross-icon"
-import PlusIcon from "../../../../components/fundamentals/icons/plus-icon"
-import ImagePlaceholder from "../../../../components/fundamentals/image-placeholder"
-import Input from "../../../../components/molecules/input"
-import { SteppedContext } from "../../../../components/molecules/modal/stepped-modal"
-import Table from "../../../../components/molecules/table"
-import isNullishObject from "../../../../utils/is-nullish-object"
-import { displayAmount, extractOptionPrice } from "../../../../utils/prices"
-import { useNewOrderForm } from "../form"
+import clsx from "clsx";
+import { useAdminGetDiscountByCode, useAdminShippingOptions } from "medusa-react";
+import { useContext, useEffect, useMemo, useState } from "react";
+import { useWatch } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import Avatar from "../../../../components/atoms/avatar";
+import Button from "../../../../components/fundamentals/button";
+import CrossIcon from "../../../../components/fundamentals/icons/cross-icon";
+import PlusIcon from "../../../../components/fundamentals/icons/plus-icon";
+import ImagePlaceholder from "../../../../components/fundamentals/image-placeholder";
+import Input from "../../../../components/molecules/input";
+import { SteppedContext } from "../../../../components/molecules/modal/stepped-modal";
+import Table from "../../../../components/molecules/table";
+import isNullishObject from "../../../../utils/is-nullish-object";
+import { displayAmount, extractOptionPrice } from "../../../../utils/prices";
+import { useNewOrderForm } from "../form";
 
 const Summary = () => {
-  const [showAddDiscount, setShowAddDiscount] = useState(false)
-  const [discError, setDiscError] = useState<string | undefined>(undefined)
-  const [code, setCode] = useState<string | undefined>(undefined)
-  const { t } = useTranslation()
+  const [showAddDiscount, setShowAddDiscount] = useState(false);
+  const [discError, setDiscError] = useState<string | undefined>(undefined);
+  const [code, setCode] = useState<string | undefined>(undefined);
+  const { t } = useTranslation();
 
   const {
     form,
     context: { items, region: regionObj, selectedShippingOption },
-  } = useNewOrderForm()
+  } = useNewOrderForm();
 
   const shipping = useWatch({
     defaultValue: undefined,
     control: form.control,
     name: "shipping_address",
-  })
+  });
 
   const billing = useWatch({
     defaultValue: undefined,
     control: form.control,
     name: "billing_address",
-  })
+  });
 
   const email = useWatch({
     control: form.control,
     name: "email",
-  })
+  });
 
   const region = useWatch({
     control: form.control,
     name: "region",
-  })
+  });
 
   const discountCode = useWatch({
     control: form.control,
     name: "discount_code",
-  })
+  });
 
   const shippingOption = useWatch({
     control: form.control,
     name: "shipping_option",
-  })
+  });
 
   const customShippingPrice = useWatch({
     control: form.control,
     name: "custom_shipping_price",
-  })
+  });
 
-  const { discount, status, isFetching } = useAdminGetDiscountByCode(
-    discountCode!,
-    {
-      enabled: !!discountCode,
-    }
-  )
+  const { discount, status, isFetching } = useAdminGetDiscountByCode(discountCode!, {
+    enabled: !!discountCode,
+  });
 
   const { shipping_options } = useAdminShippingOptions(
     { region_id: region?.value },
     {
       enabled: !!region && !!shippingOption,
     }
-  )
+  );
 
   const shippingOptionPrice = useMemo(() => {
     if (!shippingOption || !shipping_options) {
-      return 0
+      return 0;
     }
 
-    const option = shipping_options.find((o) => o.id === shippingOption.value)
+    const option = shipping_options.find((o) => o.id === shippingOption.value);
 
     if (!option) {
-      return 0
+      return 0;
     }
 
-    return option.amount || 0
-  }, [shipping_options, shippingOption])
+    return option.amount || 0;
+  }, [shipping_options, shippingOption]);
 
   const handleAddDiscount = async () => {
-    form.setValue("discount_code", code)
-  }
+    form.setValue("discount_code", code);
+  };
 
   useEffect(() => {
     if (!discount || !regionObj) {
-      return
+      return;
     }
 
     if (!discount.regions.find((d) => d.id === regionObj.id)) {
-      setDiscError(
-        t(
-          "components-the-discount-is-not-applicable-to-the-selected-region",
-          "The discount is not applicable to the selected region"
-        )
-      )
-      setCode(undefined)
-      form.setValue("discount_code", undefined)
-      setShowAddDiscount(true)
+      setDiscError(t("components-the-discount-is-not-applicable-to-the-selected-region", "The discount is not applicable to the selected region"));
+      setCode(undefined);
+      form.setValue("discount_code", undefined);
+      setShowAddDiscount(true);
     }
-  }, [discount])
+  }, [discount]);
 
   useEffect(() => {
     if (status === "error") {
-      setDiscError(
-        t(
-          "components-the-discount-code-is-invalid",
-          "The discount code is invalid"
-        )
-      )
-      setCode(undefined)
-      form.setValue("discount_code", undefined)
-      setShowAddDiscount(true)
+      setDiscError(t("components-the-discount-code-is-invalid", "The discount code is invalid"));
+      setCode(undefined);
+      form.setValue("discount_code", undefined);
+      setShowAddDiscount(true);
     }
-  }, [status])
+  }, [status]);
 
   const onDiscountRemove = () => {
-    form.setValue("discount_code", undefined)
-    setShowAddDiscount(false)
-    setCode("")
-  }
+    form.setValue("discount_code", undefined);
+    setShowAddDiscount(false);
+    setCode("");
+  };
 
   return (
     <div className="min-h-[705px]">
@@ -143,12 +127,8 @@ const Summary = () => {
           <Table.Head>
             <Table.HeadRow className="inter-small-semibold text-grey-50 border-t">
               <Table.HeadCell>Details</Table.HeadCell>
-              <Table.HeadCell className="text-right">
-                {t("components-quantity", "Quantity")}
-              </Table.HeadCell>
-              <Table.HeadCell className="text-right">
-                {t("components-price-excl-taxes", "Price (excl. Taxes)")}
-              </Table.HeadCell>
+              <Table.HeadCell className="text-right">{t("components-quantity", "Quantity")}</Table.HeadCell>
+              <Table.HeadCell className="text-right">{t("components-price-excl-taxes", "Price (excl. Taxes)")}</Table.HeadCell>
               <Table.HeadCell></Table.HeadCell>
             </Table.HeadRow>
           </Table.Head>
@@ -157,51 +137,30 @@ const Summary = () => {
               items &&
               items.fields.map((item) => {
                 return (
-                  <Table.Row
-                    key={item.id}
-                    className={clsx("border-b-grey-0 hover:bg-grey-0")}
-                  >
+                  <Table.Row key={item.id} className={clsx("border-b-grey-0 hover:bg-grey-0")}>
                     <Table.Cell>
                       <div className="flex min-w-[240px] py-2">
                         <div className="h-[40px] w-[30px] ">
-                          {item.thumbnail ? (
-                            <img
-                              className="h-full w-full rounded object-cover"
-                              src={item.thumbnail}
-                            />
-                          ) : (
-                            <ImagePlaceholder />
-                          )}
+                          {item.thumbnail ? <img className="h-full w-full rounded object-cover" src={item.thumbnail} /> : <ImagePlaceholder />}
                         </div>
                         <div className="inter-small-regular text-grey-50 ml-4 flex flex-col">
                           <span>
-                            <span className="text-grey-90">
-                              {item.product_title}
-                            </span>
+                            <span className="text-grey-90">{item.product_title}</span>
                           </span>
                           <span>{item.title}</span>
                         </div>
                       </div>
                     </Table.Cell>
-                    <Table.Cell className="text-right">
-                      {item.quantity}
-                    </Table.Cell>
-                    <Table.Cell className="text-right">
-                      {displayAmount(regionObj?.currency_code, item.unit_price)}
-                    </Table.Cell>
+                    <Table.Cell className="text-right">{item.quantity}</Table.Cell>
+                    <Table.Cell className="text-right">{displayAmount(regionObj?.currency_code, item.unit_price)}</Table.Cell>
                   </Table.Row>
-                )
+                );
               })}
           </Table.Body>
         </Table>
         {!showAddDiscount && !discount?.rule && (
           <div className="flex w-full justify-end">
-            <Button
-              variant="ghost"
-              size="small"
-              className="inter-small-semibold border-grey-20 border"
-              onClick={() => setShowAddDiscount(true)}
-            >
+            <Button variant="ghost" size="small" className="inter-small-semibold border-grey-20 border" onClick={() => setShowAddDiscount(true)}>
               <PlusIcon size={20} />
               {t("components-add-discount", "Add Discount")}
             </Button>
@@ -218,29 +177,15 @@ const Summary = () => {
                   value={code}
                   onChange={(e) => setCode(e.target.value)}
                 />
-                <Button
-                  variant="ghost"
-                  className="text-grey-40 h-8 w-8"
-                  size="small"
-                  type="button"
-                  onClick={() => setShowAddDiscount(false)}
-                >
+                <Button variant="ghost" className="text-grey-40 h-8 w-8" size="small" type="button" onClick={() => setShowAddDiscount(false)}>
                   <CrossIcon size={20} />
                 </Button>
               </div>
             </div>
 
             <div className="space-between mt-4 flex w-full justify-between ">
-              <div className="pt-2">
-                {discError && <span className="text-rose-50">{discError}</span>}
-              </div>
-              <Button
-                className="border-grey-20 h-full border"
-                variant="ghost"
-                size="small"
-                loading={isFetching}
-                onClick={() => handleAddDiscount()}
-              >
+              <div className="pt-2">{discError && <span className="text-rose-50">{discError}</span>}</div>
+              <Button className="border-grey-20 h-full border" variant="ghost" size="small" loading={isFetching} onClick={() => handleAddDiscount()}>
                 <PlusIcon size={20} />
                 {t("components-add-discount", "Add Discount")}
               </Button>
@@ -258,10 +203,7 @@ const Summary = () => {
                   })}
                 </span>
               </span>
-              <span
-                onClick={() => onDiscountRemove()}
-                className="inter-small-semibold text-violet-60 cursor-pointer"
-              >
+              <span onClick={() => onDiscountRemove()} className="inter-small-semibold text-orange-60 cursor-pointer">
                 <CrossIcon size={20} />
               </span>
             </div>
@@ -271,28 +213,19 @@ const Summary = () => {
                   "border-r": discount.rule.type !== "free_shipping",
                 })}
               >
-                <span className="text-grey-50">
-                  {t("components-type", "Type")}
-                </span>
+                <span className="text-grey-50">{t("components-type", "Type")}</span>
                 <span>
                   {discount.rule.type !== "free_shipping"
-                    ? `${discount.rule.type
-                        .charAt(0)
-                        .toUpperCase()}${discount.rule.type.slice(1)}`
+                    ? `${discount.rule.type.charAt(0).toUpperCase()}${discount.rule.type.slice(1)}`
                     : "Free Shipping"}
                 </span>
               </div>
               {discount.rule.type !== "free_shipping" && (
                 <div className="flex flex-col pl-6">
-                  <span className="text-grey-50">
-                    {t("components-value", "Value")}
-                  </span>
+                  <span className="text-grey-50">{t("components-value", "Value")}</span>
                   <span>
                     {discount.rule.type === "fixed"
-                      ? `${displayAmount(
-                          regionObj.currency_code,
-                          discount.rule.value
-                        )} ${regionObj.currency_code.toUpperCase()}`
+                      ? `${displayAmount(regionObj.currency_code, discount.rule.value)} ${regionObj.currency_code.toUpperCase()}`
                       : `${discount.rule.value} %`}
                   </span>
                 </div>
@@ -323,9 +256,7 @@ const Summary = () => {
           <div className="grid w-full grid-cols-2 gap-x-6">
             {!isNullishObject(shipping) && shipping && (
               <div className="border-grey-20 flex flex-col border-r pr-6">
-                <span className="text-grey-50">
-                  {t("components-address", "Address")}
-                </span>
+                <span className="text-grey-50">{t("components-address", "Address")}</span>
                 <span>
                   {shipping.address_1}, {shipping.address_2}
                 </span>
@@ -337,20 +268,13 @@ const Summary = () => {
             )}
             {regionObj && (
               <div className="flex flex-col">
-                <span className="text-grey-50">
-                  {t("components-shipping-method", "Shipping method")}
-                </span>
+                <span className="text-grey-50">{t("components-shipping-method", "Shipping method")}</span>
                 <span>
                   {selectedShippingOption.name} -{" "}
                   {customShippingPrice && regionObj ? (
                     <p>
-                      <span className="text-grey-40 mr-2 line-through">
-                        {extractOptionPrice(shippingOptionPrice, regionObj)}
-                      </span>
-                      {displayAmount(
-                        regionObj.currency_code,
-                        customShippingPrice
-                      )}
+                      <span className="text-grey-40 mr-2 line-through">{extractOptionPrice(shippingOptionPrice, regionObj)}</span>
+                      {displayAmount(regionObj.currency_code, customShippingPrice)}
                       {regionObj.currency_code.toUpperCase()}
                     </p>
                   ) : (
@@ -364,13 +288,8 @@ const Summary = () => {
       )}
 
       {!isNullishObject(billing) && billing && (
-        <SummarySection
-          title={t("components-billing-details", "Billing details")}
-          editIndex={3}
-        >
-          <span className="text-grey-50">
-            {t("components-address", "Address")}
-          </span>
+        <SummarySection title={t("components-billing-details", "Billing details")} editIndex={3}>
+          <span className="text-grey-50">{t("components-address", "Address")}</span>
           <span>
             {billing.address_1}, {billing.address_2}
           </span>
@@ -381,26 +300,23 @@ const Summary = () => {
         </SummarySection>
       )}
     </div>
-  )
-}
+  );
+};
 
 const SummarySection = ({ title, editIndex, children }) => {
-  const { setPage } = useContext(SteppedContext)
-  const { t } = useTranslation()
+  const { setPage } = useContext(SteppedContext);
+  const { t } = useTranslation();
 
   return (
     <div className="inter-small-regular border-grey-20 mt-4 flex w-full flex-col border-b pb-8 last:border-b-0 ">
       <div className="inter-base-semibold mb-4 flex w-full justify-between">
         {title}
-        <span
-          onClick={() => setPage(editIndex)}
-          className="inter-small-semibold text-violet-60 cursor-pointer"
-        >
+        <span onClick={() => setPage(editIndex)} className="inter-small-semibold text-orange-60 cursor-pointer">
           {t("components-edit", "Edit")}
         </span>
       </div>
       {children}
     </div>
-  )
-}
-export default Summary
+  );
+};
+export default Summary;

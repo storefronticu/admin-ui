@@ -1525,7 +1525,7 @@
   "add-variants-variations-comma-separated": "Variationen (durch Komma getrennt)",
   "add-variants-color": "Farbe...",
   "add-variants-already-exists": "bereits existiert",
-  "add-variants-blue-red-black": "Blau, Rot, Schwarz...",
+  "add-variants-orange-red-black": "Blau, Rot, Schwarz...",
   "add-variants-add-an-option": "Eine Option hinzufügen",
   "add-variants-product-variants": "Produktvarianten",
   "add-variants-you-must-add-at-least-one-product-option-before-you-can-begin-adding-product-variants": "Sie müssen mindestens eine Produktoption hinzufügen, bevor Sie mit dem Hinzufügen von Produktvarianten beginnen können",
@@ -1707,7 +1707,7 @@
   "settings-manage-your-business-details": "Verwalten Sie Ihre Unternehmensdaten",
   "settings-general": "Allgemein",
   "settings-store-name": "Name des Geschäfts",
-  "settings-medusa-store": "Medusa Store",
+  "settings-medusa-store": "Storefront store",
   "settings-advanced-settings": "Erweiterte Einstellungen",
   "settings-swap-link-template": "Tauschlink-Vorlage",
   "settings-draft-order-link-template": "Vorlage für den Link zum Entwurf einer Bestellung",
@@ -1918,7 +1918,7 @@
   "users-invite-users": "Benutzer einladen",
   "users-back-to-settings": "Zurück zu den Einstellungen",
   "users-the-team": "Das Team",
-  "users-manage-users-of-your-medusa-store": "Verwalten Sie die Benutzer Ihres Medusa Stores",
+  "users-manage-users-of-your-medusa-store": "Verwalten Sie die Benutzer Ihres Storefront stores",
   "users-count_one": "{{count}}",
   "users-count_other": "{{count}}"
 }

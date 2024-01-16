@@ -1,30 +1,24 @@
-import React, {
-  ChangeEventHandler,
-  FocusEventHandler,
-  MouseEventHandler,
-  useImperativeHandle,
-  useRef,
-} from "react"
-import InputHeader, { InputHeaderProps } from "../../fundamentals/input-header"
+import React, { ChangeEventHandler, FocusEventHandler, MouseEventHandler, useImperativeHandle, useRef } from "react";
+import InputHeader, { InputHeaderProps } from "../../fundamentals/input-header";
 
-import clsx from "clsx"
-import InputError from "../../atoms/input-error"
-import MinusIcon from "../../fundamentals/icons/minus-icon"
-import PlusIcon from "../../fundamentals/icons/plus-icon"
+import clsx from "clsx";
+import InputError from "../../atoms/input-error";
+import MinusIcon from "../../fundamentals/icons/minus-icon";
+import PlusIcon from "../../fundamentals/icons/plus-icon";
 
 export type InputProps = Omit<React.ComponentPropsWithRef<"input">, "prefix"> &
   InputHeaderProps & {
-    small?: boolean
-    label?: string
-    deletable?: boolean
-    onDelete?: MouseEventHandler<HTMLSpanElement>
-    onChange?: ChangeEventHandler<HTMLInputElement>
-    onFocus?: FocusEventHandler<HTMLInputElement>
-    errors?: { [x: string]: unknown }
-    prefix?: React.ReactNode
-    suffix?: React.ReactNode
-    props?: React.HTMLAttributes<HTMLDivElement>
-  }
+    small?: boolean;
+    label?: string;
+    deletable?: boolean;
+    onDelete?: MouseEventHandler<HTMLSpanElement>;
+    onChange?: ChangeEventHandler<HTMLInputElement>;
+    onFocus?: FocusEventHandler<HTMLInputElement>;
+    errors?: { [x: string]: unknown };
+    prefix?: React.ReactNode;
+    suffix?: React.ReactNode;
+    props?: React.HTMLAttributes<HTMLDivElement>;
+  };
 
 const InputField = React.forwardRef<HTMLInputElement, InputProps>(
   (
@@ -49,15 +43,12 @@ const InputField = React.forwardRef<HTMLInputElement, InputProps>(
     }: InputProps,
     ref
   ) => {
-    const inputRef = useRef<HTMLInputElement | null>(null)
+    const inputRef = useRef<HTMLInputElement | null>(null);
 
-    useImperativeHandle<HTMLInputElement | null, HTMLInputElement | null>(
-      ref,
-      () => inputRef.current
-    )
+    useImperativeHandle<HTMLInputElement | null, HTMLInputElement | null>(ref, () => inputRef.current);
 
     const onNumberIncrement = () => {
-      inputRef.current?.stepUp()
+      inputRef.current?.stepUp();
       if (onChange) {
         inputRef.current?.dispatchEvent(
           new InputEvent("change", {
@@ -65,12 +56,12 @@ const InputField = React.forwardRef<HTMLInputElement, InputProps>(
             bubbles: true,
             cancelable: false,
           })
-        )
+        );
       }
-    }
+    };
 
     const onNumberDecrement = () => {
-      inputRef.current?.stepDown()
+      inputRef.current?.stepDown();
       if (onChange) {
         inputRef.current?.dispatchEvent(
           new InputEvent("change", {
@@ -78,34 +69,26 @@ const InputField = React.forwardRef<HTMLInputElement, InputProps>(
             bubbles: true,
             cancelable: false,
           })
-        )
+        );
       }
-    }
+    };
 
     return (
       <div className={clsx("w-full", className)} {...props}>
-        {label && (
-          <InputHeader
-            {...{ label, required, tooltipContent, tooltip }}
-            className="mb-xsmall"
-          />
-        )}
+        {label && <InputHeader {...{ label, required, tooltipContent, tooltip }} className="mb-xsmall" />}
         <div
           className={clsx(
-            "bg-grey-5 border-gray-20 px-small py-xsmall rounded-rounded focus-within:shadow-input focus-within:border-violet-60 flex w-full items-center border",
+            "bg-grey-5 border-gray-20 px-small py-xsmall rounded-rounded focus-within:shadow-input focus-within:border-orange-60 flex w-full items-center border",
             {
-              "focus-within:shadow-cta focus-within:shadow-rose-60/10 border-rose-50 focus-within:border-rose-50":
-                errors && name && errors[name],
+              "focus-within:shadow-cta focus-within:shadow-rose-60/10 border-rose-50 focus-within:border-rose-50": errors && name && errors[name],
             },
             small ? "h-8" : "h-10"
           )}
         >
-          {prefix ? (
-            <span className="text-grey-40 mr-2xsmall">{prefix}</span>
-          ) : null}
+          {prefix ? <span className="text-grey-40 mr-2xsmall">{prefix}</span> : null}
           <input
             className={clsx(
-              "remove-number-spinner leading-base text-grey-90 caret-violet-60 placeholder-grey-40 w-full bg-transparent font-normal outline-none outline-0",
+              "remove-number-spinner leading-base text-grey-90 caret-orange-60 placeholder-grey-40 w-full bg-transparent font-normal outline-none outline-0",
               { "text-small": small, "pt-[1px]": small }
             )}
             ref={inputRef}
@@ -117,9 +100,7 @@ const InputField = React.forwardRef<HTMLInputElement, InputProps>(
             required={required}
             {...fieldProps}
           />
-          {suffix ? (
-            <span className="mx-2xsmall text-grey-40">{suffix}</span>
-          ) : null}
+          {suffix ? <span className="mx-2xsmall text-grey-40">{suffix}</span> : null}
 
           {deletable && (
             <button
@@ -156,10 +137,10 @@ const InputField = React.forwardRef<HTMLInputElement, InputProps>(
         </div>
         <InputError name={name} errors={errors} />
       </div>
-    )
+    );
   }
-)
+);
 
-InputField.displayName = "InputField"
+InputField.displayName = "InputField";
 
-export default InputField
+export default InputField;

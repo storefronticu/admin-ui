@@ -1,67 +1,44 @@
-import moment from "moment"
-import { useMemo } from "react"
-import ReactCountryFlag from "react-country-flag"
-import { useTranslation } from "react-i18next"
-import { getColor } from "../../../utils/color"
-import { isoAlpha2Countries } from "../../../utils/countries"
-import { formatAmountWithSymbol } from "../../../utils/prices"
-import Tooltip from "../../atoms/tooltip"
-import StatusDot from "../../fundamentals/status-indicator"
-import CustomerAvatarItem from "../../molecules/customer-avatar-item"
+import moment from "moment";
+import { useMemo } from "react";
+import ReactCountryFlag from "react-country-flag";
+import { useTranslation } from "react-i18next";
+import { getColor } from "../../../utils/color";
+import { isoAlpha2Countries } from "../../../utils/countries";
+import { formatAmountWithSymbol } from "../../../utils/prices";
+import Tooltip from "../../atoms/tooltip";
+import StatusDot from "../../fundamentals/status-indicator";
+import CustomerAvatarItem from "../../molecules/customer-avatar-item";
 
 const useOrderTableColums = () => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   const decideStatus = (status) => {
     switch (status) {
       case "captured":
-        return (
-          <StatusDot variant="success" title={t("order-table-paid", "Paid")} />
-        )
+        return <StatusDot variant="success" title={t("order-table-paid", "Paid")} />;
       case "awaiting":
-        return (
-          <StatusDot
-            variant="default"
-            title={t("order-table-awaiting", "Awaiting")}
-          />
-        )
+        return <StatusDot variant="default" title={t("order-table-awaiting", "Awaiting")} />;
       case "requires_action":
-        return (
-          <StatusDot
-            variant="danger"
-            title={t("order-table-requires-action", "Requires action")}
-          />
-        )
+        return <StatusDot variant="danger" title={t("order-table-requires-action", "Requires action")} />;
       case "canceled":
-        return (
-          <StatusDot
-            variant="warning"
-            title={t("order-table-canceled", "Canceled")}
-          />
-        )
+        return <StatusDot variant="warning" title={t("order-table-canceled", "Canceled")} />;
       default:
-        return (
-          <StatusDot variant="primary" title={t("order-table-n-a", "N/A")} />
-        )
+        return <StatusDot variant="primary" title={t("order-table-n-a", "N/A")} />;
     }
-  }
+  };
 
   const columns = useMemo(
     () => [
       {
         Header: <div className="pl-2">{t("order-table-order", "Order")}</div>,
         accessor: "display_id",
-        Cell: ({ cell: { value } }) => (
-          <p className="text-grey-90 group-hover:text-violet-60 min-w-[100px] pl-2">{`#${value}`}</p>
-        ),
+        Cell: ({ cell: { value } }) => <p className="text-grey-90 group-hover:text-orange-60 min-w-[100px] pl-2">{`#${value}`}</p>,
       },
       {
         Header: t("order-table-date-added", "Date added"),
         accessor: "created_at",
         Cell: ({ cell: { value } }) => (
           <div>
-            <Tooltip content={moment(value).format("DD MMM YYYY hh:mm a")}>
-              {moment(value).format("DD MMM YYYY")}
-            </Tooltip>
+            <Tooltip content={moment(value).format("DD MMM YYYY hh:mm a")}>{moment(value).format("DD MMM YYYY")}</Tooltip>
           </div>
         ),
       },
@@ -72,11 +49,8 @@ const useOrderTableColums = () => {
           <div>
             <CustomerAvatarItem
               customer={{
-                first_name:
-                  value?.first_name ||
-                  row.original.shipping_address?.first_name,
-                last_name:
-                  value?.last_name || row.original.shipping_address?.last_name,
+                first_name: value?.first_name || row.original.shipping_address?.first_name,
+                last_name: value?.last_name || row.original.shipping_address?.last_name,
                 email: row.original.email,
               }}
               color={getColor(row.index)}
@@ -100,9 +74,7 @@ const useOrderTableColums = () => {
         Cell: ({ cell: { value } }) => value?.name ?? "N/A",
       },
       {
-        Header: () => (
-          <div className="text-right">{t("order-table-total", "Total")}</div>
-        ),
+        Header: () => <div className="text-right">{t("order-table-total", "Total")}</div>,
         accessor: "total",
         Cell: ({ row, cell: { value } }) => (
           <div className="text-right">
@@ -117,9 +89,7 @@ const useOrderTableColums = () => {
       {
         Header: "",
         accessor: "currency_code",
-        Cell: ({ cell: { value } }) => (
-          <div className="text-grey-40 text-right">{value.toUpperCase()}</div>
-        ),
+        Cell: ({ cell: { value } }) => <div className="text-grey-40 text-right">{value.toUpperCase()}</div>,
       },
       {
         Header: "",
@@ -129,17 +99,11 @@ const useOrderTableColums = () => {
             <div className="rounded-rounded flex w-full justify-end">
               <Tooltip
                 content={
-                  isoAlpha2Countries[
-                    row.original.shipping_address?.country_code?.toUpperCase()
-                  ] ||
+                  isoAlpha2Countries[row.original.shipping_address?.country_code?.toUpperCase()] ||
                   row.original.shipping_address?.country_code?.toUpperCase()
                 }
               >
-                <ReactCountryFlag
-                  className={"rounded"}
-                  svg
-                  countryCode={row.original.shipping_address?.country_code}
-                />
+                <ReactCountryFlag className={"rounded"} svg countryCode={row.original.shipping_address?.country_code} />
               </Tooltip>
             </div>
           </div>
@@ -147,9 +111,9 @@ const useOrderTableColums = () => {
       },
     ],
     []
-  )
+  );
 
-  return [columns]
-}
+  return [columns];
+};
 
-export default useOrderTableColums
+export default useOrderTableColums;

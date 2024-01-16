@@ -1,28 +1,24 @@
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
-import clsx from "clsx"
-import React from "react"
-import Button from "../fundamentals/button"
-import MoreHorizontalIcon from "../fundamentals/icons/more-horizontal-icon"
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import clsx from "clsx";
+import React from "react";
+import Button from "../fundamentals/button";
+import MoreHorizontalIcon from "../fundamentals/icons/more-horizontal-icon";
 
 export type ActionType = {
-  label: string
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void
-  variant?: "normal" | "danger"
-  disabled?: boolean
-  icon?: React.ReactNode
-}
+  label: string;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  variant?: "normal" | "danger";
+  disabled?: boolean;
+  icon?: React.ReactNode;
+};
 
 type ActionablesProps = {
-  actions?: ActionType[]
-  customTrigger?: React.ReactNode
-  forceDropdown?: boolean
-}
+  actions?: ActionType[];
+  customTrigger?: React.ReactNode;
+  forceDropdown?: boolean;
+};
 
-const Actionables: React.FC<ActionablesProps> = ({
-  actions,
-  customTrigger,
-  forceDropdown = false,
-}) => {
+const Actionables: React.FC<ActionablesProps> = ({ actions, customTrigger, forceDropdown = false }) => {
   if (actions && (forceDropdown || actions.length > 1)) {
     return (
       <div>
@@ -32,7 +28,7 @@ const Actionables: React.FC<ActionablesProps> = ({
               <Button
                 variant="ghost"
                 size="small"
-                className="w-xlarge h-xlarge focus-visible:shadow-input focus-visible:border-violet-60 focus:shadow-none focus-visible:outline-none"
+                className="w-xlarge h-xlarge focus-visible:shadow-input focus-visible:border-orange-60 focus:shadow-none focus-visible:outline-none"
               >
                 <MoreHorizontalIcon size={20} />
               </Button>
@@ -54,8 +50,7 @@ const Actionables: React.FC<ActionablesProps> = ({
                       size="small"
                       className={clsx("flex w-full justify-start", {
                         "text-rose-50": action?.variant === "danger",
-                        "pointer-events-none select-none opacity-50":
-                          action?.disabled,
+                        "pointer-events-none select-none opacity-50": action?.disabled,
                       })}
                       onClick={action?.onClick}
                     >
@@ -64,38 +59,30 @@ const Actionables: React.FC<ActionablesProps> = ({
                     </Button>
                   }
                 </DropdownMenu.Item>
-              )
+              );
             })}
           </DropdownMenu.Content>
         </DropdownMenu.Root>
       </div>
-    )
+    );
   }
 
   if (customTrigger) {
-    const triggers = Array.isArray(customTrigger)
-      ? customTrigger
-      : [customTrigger]
+    const triggers = Array.isArray(customTrigger) ? customTrigger : [customTrigger];
     return (
       <div>
         {triggers.map((trigger, i) => (
           <div key={i}>{trigger}</div>
         ))}
       </div>
-    )
+    );
   }
 
-  const [action] = actions ?? []
+  const [action] = actions ?? [];
   if (action) {
     return (
       <div>
-        <Button
-          variant="secondary"
-          size="small"
-          type="button"
-          className="flex items-center"
-          onClick={action.onClick}
-        >
+        <Button variant="secondary" size="small" type="button" className="flex items-center" onClick={action.onClick}>
           {action.icon ? (
             <div className="gap-x-2xsmall flex items-center">
               {action.icon}
@@ -106,10 +93,10 @@ const Actionables: React.FC<ActionablesProps> = ({
           )}
         </Button>
       </div>
-    )
+    );
   }
 
-  return null
-}
+  return null;
+};
 
-export default Actionables
+export default Actionables;

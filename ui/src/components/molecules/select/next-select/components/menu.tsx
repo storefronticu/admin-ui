@@ -9,21 +9,17 @@ import {
   OptionProps,
   OptionsOrGroups,
   PropsValue,
-} from "react-select"
-import { hasPrefix, hasSuffix, optionIsDisabled } from "../utils"
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+} from "react-select";
+import { hasPrefix, hasSuffix, optionIsDisabled } from "../utils";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import Button from "../../../../fundamentals/button"
-import CheckIcon from "../../../../fundamentals/icons/check-icon"
-import ListArrowIcon from "../../../../fundamentals/icons/list-arrow-icon"
-import SelectPrimitives from "./select-primitives"
-import clsx from "clsx"
+import Button from "../../../../fundamentals/button";
+import CheckIcon from "../../../../fundamentals/icons/check-icon";
+import ListArrowIcon from "../../../../fundamentals/icons/list-arrow-icon";
+import SelectPrimitives from "./select-primitives";
+import clsx from "clsx";
 
-const Menu = <
-  Option,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
->({
+const Menu = <Option, IsMulti extends boolean, Group extends GroupBase<Option>>({
   className,
   cx,
   children,
@@ -35,16 +31,16 @@ const Menu = <
   useEffect(() => {
     const closeOnResize = () => {
       if (menuIsOpen) {
-        onMenuClose()
+        onMenuClose();
       }
-    }
+    };
 
-    window.addEventListener("resize", closeOnResize)
+    window.addEventListener("resize", closeOnResize);
 
     return () => {
-      window.removeEventListener("resize", closeOnResize)
-    }
-  }, [menuIsOpen, onMenuClose])
+      window.removeEventListener("resize", closeOnResize);
+    };
+  }, [menuIsOpen, onMenuClose]);
 
   return (
     <div
@@ -66,72 +62,59 @@ const Menu = <
     >
       {children}
     </div>
-  )
-}
+  );
+};
 
-export default Menu
+export default Menu;
 
-type SelectAllOptionProps<
-  Option,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
-> = {
-  cx: CX
-  onChange: (
-    newValue: OnChangeValue<Option, IsMulti>,
-    actionMeta: ActionMeta<Option>
-  ) => void
-  options: OptionsOrGroups<Option, Group>
-  value: PropsValue<Option>
-}
+type SelectAllOptionProps<Option, IsMulti extends boolean, Group extends GroupBase<Option>> = {
+  cx: CX;
+  onChange: (newValue: OnChangeValue<Option, IsMulti>, actionMeta: ActionMeta<Option>) => void;
+  options: OptionsOrGroups<Option, Group>;
+  value: PropsValue<Option>;
+};
 
-const SelectAllOption = <
-  Option,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
->({
+const SelectAllOption = <Option, IsMulti extends boolean, Group extends GroupBase<Option>>({
   cx,
   onChange,
   options,
   value,
 }: SelectAllOptionProps<Option, IsMulti, Group>) => {
-  const [isFocused, setIsFocused] = useState(false)
-  const ref = useRef<HTMLButtonElement>(null)
+  const [isFocused, setIsFocused] = useState(false);
+  const ref = useRef<HTMLButtonElement>(null);
 
   const isAllSelected = useMemo(() => {
     if (Array.isArray(value)) {
-      const selectableOptions = options.filter((o) => !optionIsDisabled(o))
-      return value.length === selectableOptions.length
+      const selectableOptions = options.filter((o) => !optionIsDisabled(o));
+      return value.length === selectableOptions.length;
     }
 
-    return false
-  }, [options, value])
+    return false;
+  }, [options, value]);
 
   const onClick = useCallback(() => {
     if (isAllSelected) {
       onChange([] as unknown as OnChangeValue<Option, IsMulti>, {
         action: "deselect-option",
         option: [] as unknown as Option,
-      })
+      });
     } else {
-      const selectableOptions = options.filter((o) => !optionIsDisabled(o))
+      const selectableOptions = options.filter((o) => !optionIsDisabled(o));
 
       onChange(selectableOptions as unknown as OnChangeValue<Option, IsMulti>, {
         action: "select-option",
         option: selectableOptions as unknown as Option,
-      })
+      });
     }
-  }, [isAllSelected, onChange, options])
+  }, [isAllSelected, onChange, options]);
 
   useEffect(() => {
-    setIsFocused(
-      document.activeElement !== null && document.activeElement === ref.current
-    )
+    setIsFocused(document.activeElement !== null && document.activeElement === ref.current);
 
     return () => {
-      setIsFocused(false)
-    }
-  }, [])
+      setIsFocused(false);
+    };
+  }, []);
 
   return (
     <Button
@@ -149,20 +132,12 @@ const SelectAllOption = <
       onClick={onClick}
     >
       <ListArrowIcon size={16} />
-      <span className="inter-small-semibold">
-        {!isAllSelected ? "Select All" : "Deselect All"}
-      </span>
+      <span className="inter-small-semibold">{!isAllSelected ? "Select All" : "Deselect All"}</span>
     </Button>
-  )
-}
+  );
+};
 
-export const MenuList = <
-  Option,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
->(
-  props: MenuListProps<Option, IsMulti, Group>
-) => {
+export const MenuList = <Option, IsMulti extends boolean, Group extends GroupBase<Option>>(props: MenuListProps<Option, IsMulti, Group>) => {
   const {
     className,
     children,
@@ -170,7 +145,7 @@ export const MenuList = <
     isMulti,
     selectProps: { selectAll, value, onChange },
     options,
-  } = props
+  } = props;
   return (
     <SelectPrimitives.MenuList
       {...props}
@@ -182,24 +157,13 @@ export const MenuList = <
         clsx("py-xsmall no-scrollbar flex flex-col overflow-y-auto", className)
       )}
     >
-      {isMulti && selectAll && (
-        <SelectAllOption
-          cx={cx}
-          onChange={onChange}
-          options={options}
-          value={value}
-        />
-      )}
+      {isMulti && selectAll && <SelectAllOption cx={cx} onChange={onChange} options={options} value={value} />}
       {children}
     </SelectPrimitives.MenuList>
-  )
-}
+  );
+};
 
-export const LoadingMessage = <
-  Option,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
->({
+export const LoadingMessage = <Option, IsMulti extends boolean, Group extends GroupBase<Option>>({
   innerProps,
   cx,
   className,
@@ -208,18 +172,15 @@ export const LoadingMessage = <
   const Skeleton = () => {
     return (
       <div
-        className={clsx(
-          "px-base hover:bg-grey-5 flex w-full items-center transition-colors",
-          {
-            "h-xlarge": size === "sm",
-            "h-10": size === "md" || !size,
-          }
-        )}
+        className={clsx("px-base hover:bg-grey-5 flex w-full items-center transition-colors", {
+          "h-xlarge": size === "sm",
+          "h-10": size === "md" || !size,
+        })}
       >
         <div className="bg-grey-10 h-xsmall rounded-rounded w-1/4 animate-pulse" />
       </div>
-    )
-  }
+    );
+  };
 
   return (
     <div
@@ -236,16 +197,10 @@ export const LoadingMessage = <
       <Skeleton />
       <Skeleton />
     </div>
-  )
-}
+  );
+};
 
-export const Option = <
-  Option,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
->(
-  props: OptionProps<Option, IsMulti, Group>
-) => {
+export const Option = <Option, IsMulti extends boolean, Group extends GroupBase<Option>>(props: OptionProps<Option, IsMulti, Group>) => {
   const {
     isSelected,
     isDisabled,
@@ -256,10 +211,10 @@ export const Option = <
     innerProps,
     innerRef,
     selectProps: { hideSelectedOptions, isMulti, size, truncateOption },
-  } = props
+  } = props;
 
-  const prefix = hasPrefix(props.data) ? props.data.prefix : null
-  const suffix = hasSuffix(props.data) ? props.data.suffix : null
+  const prefix = hasPrefix(props.data) ? props.data.prefix : null;
+  const suffix = hasSuffix(props.data) ? props.data.suffix : null;
 
   return (
     <div
@@ -292,53 +247,32 @@ export const Option = <
       {...innerProps}
     >
       <div className="gap-x-small flex flex-1 items-center">
-        {isMulti && (
-          <CheckboxAdornment isSelected={isSelected} isDisabled={isDisabled} />
-        )}
+        {isMulti && <CheckboxAdornment isSelected={isSelected} isDisabled={isDisabled} />}
         <div
-          className={clsx(
-            "gap-x-xsmall inter-base-regular flex flex-1 items-center justify-between",
-            {
-              truncate: !!truncateOption,
-            }
-          )}
+          className={clsx("gap-x-xsmall inter-base-regular flex flex-1 items-center justify-between", {
+            truncate: !!truncateOption,
+          })}
         >
           {prefix && <span className="inter-base-semibold">{prefix}</span>}
           <span className="w-full">{children}</span>
 
-          {suffix && (
-            <span className="inter-base-regular text-grey-50 justify-self-end">
-              {suffix}
-            </span>
-          )}
+          {suffix && <span className="inter-base-regular text-grey-50 justify-self-end">{suffix}</span>}
         </div>
       </div>
-      {!isMulti && (
-        <div className="ml-xsmall w-5">
-          {isSelected && <CheckIcon size={16} />}
-        </div>
-      )}
+      {!isMulti && <div className="ml-xsmall w-5">{isSelected && <CheckIcon size={16} />}</div>}
     </div>
-  )
-}
+  );
+};
 
-const CheckboxAdornment = ({
-  isSelected,
-  isDisabled,
-}: Pick<OptionProps, "isSelected" | "isDisabled">) => {
+const CheckboxAdornment = ({ isSelected, isDisabled }: Pick<OptionProps, "isSelected" | "isDisabled">) => {
   return (
     <div
-      className={clsx(
-        `w-base h-base text-grey-0 border-grey-30 rounded-base flex justify-center border transition-colors`,
-        {
-          "bg-violet-60 border-violet-60": isSelected,
-          "bg-grey-5": isDisabled,
-        }
-      )}
+      className={clsx(`w-base h-base text-grey-0 border-grey-30 rounded-base flex justify-center border transition-colors`, {
+        "bg-orange-60 border-orange-60": isSelected,
+        "bg-grey-5": isDisabled,
+      })}
     >
-      <span className="self-center">
-        {isSelected && <CheckIcon size={10} />}
-      </span>
+      <span className="self-center">{isSelected && <CheckIcon size={10} />}</span>
     </div>
-  )
-}
+  );
+};

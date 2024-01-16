@@ -1,12 +1,12 @@
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
-import Picker, { EmojiStyle, SkinTones } from "emoji-picker-react"
-import React from "react"
-import Button from "../../fundamentals/button"
-import HappyIcon from "../../fundamentals/icons/happy-icon"
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import Picker, { EmojiStyle, SkinTones } from "emoji-picker-react";
+import React from "react";
+import Button from "../../fundamentals/button";
+import HappyIcon from "../../fundamentals/icons/happy-icon";
 
 type indexProps = {
-  onEmojiClick: (emoji: string) => void
-}
+  onEmojiClick: (emoji: string) => void;
+};
 
 const EmojiPicker: React.FC<indexProps> = ({ onEmojiClick }) => {
   return (
@@ -16,7 +16,7 @@ const EmojiPicker: React.FC<indexProps> = ({ onEmojiClick }) => {
           variant="ghost"
           size="small"
           type="button"
-          className="text-grey-40 hover:text-violet-60 h-5 w-5 p-0 focus:border-none focus:shadow-none"
+          className="text-grey-40 hover:text-orange-60 h-5 w-5 p-0 focus:border-none focus:shadow-none"
         >
           <HappyIcon size={20} />
         </Button>
@@ -35,7 +35,7 @@ const EmojiPicker: React.FC<indexProps> = ({ onEmojiClick }) => {
         />
       </DropdownMenu.Content>
     </DropdownMenu.Root>
-  )
-}
+  );
+};
 
-export default EmojiPicker
+export default EmojiPicker;

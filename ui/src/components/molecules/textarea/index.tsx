@@ -1,20 +1,20 @@
-import clsx from "clsx"
-import React, { useImperativeHandle, useRef } from "react"
-import InputError from "../../atoms/input-error"
-import InputHeader from "../../fundamentals/input-header"
-import EmojiPicker from "../emoji-picker"
+import clsx from "clsx";
+import React, { useImperativeHandle, useRef } from "react";
+import InputError from "../../atoms/input-error";
+import InputHeader from "../../fundamentals/input-header";
+import EmojiPicker from "../emoji-picker";
 
 type TextareaProps = React.ComponentPropsWithRef<"textarea"> & {
-  errors?: { [x: string]: unknown }
-  label: string
-  key?: string
-  enableEmoji?: boolean
-  withTooltip?: boolean
-  tooltipText?: string
-  tooltipProps?: any
-  children?: React.ReactNode
-  containerProps?: React.HTMLAttributes<HTMLDivElement>
-}
+  errors?: { [x: string]: unknown };
+  label: string;
+  key?: string;
+  enableEmoji?: boolean;
+  withTooltip?: boolean;
+  tooltipText?: string;
+  tooltipProps?: any;
+  children?: React.ReactNode;
+  containerProps?: React.HTMLAttributes<HTMLDivElement>;
+};
 
 const TextArea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   (
@@ -37,55 +37,43 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     }: TextareaProps,
     ref
   ) => {
-    const inputRef = useRef<HTMLTextAreaElement | null>(null)
+    const inputRef = useRef<HTMLTextAreaElement | null>(null);
 
-    useImperativeHandle<HTMLTextAreaElement | null, HTMLTextAreaElement | null>(
-      ref,
-      () => inputRef.current
-    )
+    useImperativeHandle<HTMLTextAreaElement | null, HTMLTextAreaElement | null>(ref, () => inputRef.current);
 
     const scrollToTop = () => {
       if (inputRef.current) {
-        inputRef.current.scrollTop = 0
+        inputRef.current.scrollTop = 0;
       }
-    }
+    };
 
     const handleAddEmoji = (emoji: string) => {
       if (!inputRef.current) {
-        return
+        return;
       }
 
-      const position = inputRef.current.selectionStart || 0
+      const position = inputRef.current.selectionStart || 0;
 
-      const newValue = `${inputRef.current?.value.substring(
-        0,
-        position
-      )}${emoji}${inputRef.current?.value.substring(position)}`
+      const newValue = `${inputRef.current?.value.substring(0, position)}${emoji}${inputRef.current?.value.substring(position)}`;
 
-      inputRef.current.value = newValue
-    }
+      inputRef.current.value = newValue;
+    };
 
     return (
       <div className={className} {...containerProps}>
-        {label && (
-          <InputHeader
-            {...{ label, required, withTooltip, tooltipText, tooltipProps }}
-            className="mb-xsmall"
-          />
-        )}
+        {label && <InputHeader {...{ label, required, withTooltip, tooltipText, tooltipProps }} className="mb-xsmall" />}
         <div
           className={clsx(
-            "focus-within:shadow-input focus-within:border-violet-60 px-small py-xsmall bg-grey-5 border-grey-20 rounded-rounded flex w-full flex-col border",
+            "focus-within:shadow-input focus-within:border-orange-60 px-small py-xsmall bg-grey-5 border-grey-20 rounded-rounded flex w-full flex-col border",
             {
-              "focus-within:shadow-cta focus-within:shadow-rose-60/10 border-rose-50 focus-within:border-rose-50":
-                errors && name && errors[name],
+              "focus-within:shadow-cta focus-within:shadow-rose-60/10 border-rose-50 focus-within:border-rose-50": errors && name && errors[name],
             }
           )}
         >
           <textarea
             className={clsx(
               "relative resize-none overflow-hidden bg-inherit text-justify outline-none outline-0 focus:overflow-auto",
-              "remove-number-spinner leading-base text-grey-90 caret-violet-60 placeholder-grey-40 w-full font-normal",
+              "remove-number-spinner leading-base text-grey-90 caret-orange-60 placeholder-grey-40 w-full font-normal",
               "line-clamp-[var(--lines)] focus:line-clamp-none"
             )}
             style={
@@ -107,8 +95,8 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
         </div>
         <InputError name={name} errors={errors} />
       </div>
-    )
+    );
   }
-)
+);
 
-export default TextArea
+export default TextArea;

@@ -1,14 +1,9 @@
-import React, {
-  InputHTMLAttributes,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from "react"
-import { generatePromotionCode } from "../../../utils/generate-promotion-code"
-import RefreshIcon from "../../fundamentals/icons/refresh-icon"
-import InputContainer from "../../fundamentals/input-container"
-import InputHeader from "../../fundamentals/input-header"
-import { InputProps } from "../input"
+import React, { InputHTMLAttributes, useImperativeHandle, useRef, useState } from "react";
+import { generatePromotionCode } from "../../../utils/generate-promotion-code";
+import RefreshIcon from "../../fundamentals/icons/refresh-icon";
+import InputContainer from "../../fundamentals/input-container";
+import InputHeader from "../../fundamentals/input-header";
+import { InputProps } from "../input";
 
 const GeneratingInput = React.forwardRef(
   (
@@ -30,38 +25,28 @@ const GeneratingInput = React.forwardRef(
     }: Omit<InputProps, "prefix" | "key">,
     ref
   ) => {
-    const [value, setValue] = useState<
-      InputHTMLAttributes<HTMLInputElement>["value"]
-    >(valueProp || "")
-    const inputRef = useRef<HTMLInputElement>(null)
+    const [value, setValue] = useState<InputHTMLAttributes<HTMLInputElement>["value"]>(valueProp || "");
+    const inputRef = useRef<HTMLInputElement>(null);
 
-    useImperativeHandle(ref, () => inputRef.current)
+    useImperativeHandle(ref, () => inputRef.current);
 
     const generateCode = () => {
-      setValue(generatePromotionCode())
-    }
+      setValue(generatePromotionCode());
+    };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setValue(e.target.value)
+      setValue(e.target.value);
       if (onChange) {
-        onChange(e)
+        onChange(e);
       }
-    }
+    };
 
     return (
-      <InputContainer
-        className={className}
-        key={name}
-        onClick={() => !fieldProps.disabled && inputRef?.current?.focus()}
-        {...props}
-      >
+      <InputContainer className={className} key={name} onClick={() => !fieldProps.disabled && inputRef?.current?.focus()} {...props}>
         <div className="flex">
           <InputHeader {...{ label, required, tooltipContent, tooltip }} />
           {!value && (
-            <button
-              onClick={generateCode}
-              className="inter-small-semibold text-violet-50"
-            >
+            <button onClick={generateCode} className="inter-small-semibold text-orange-50">
               Generate
             </button>
           )}
@@ -71,7 +56,7 @@ const GeneratingInput = React.forwardRef(
             ref={inputRef}
             value={value}
             onChange={handleChange}
-            className="remove-number-spinner leading-base text-grey-90 caret-violet-60 placeholder-grey-40 w-full bg-inherit font-normal outline-none outline-0"
+            className="remove-number-spinner leading-base text-grey-90 caret-orange-60 placeholder-grey-40 w-full bg-inherit font-normal outline-none outline-0"
             placeholder={placeholder}
             autoComplete="off"
             name={name}
@@ -86,8 +71,8 @@ const GeneratingInput = React.forwardRef(
           )}
         </div>
       </InputContainer>
-    )
+    );
   }
-)
+);
 
-export default GeneratingInput
+export default GeneratingInput;

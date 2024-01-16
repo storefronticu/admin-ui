@@ -1,12 +1,12 @@
-import { useMemo } from "react"
-import { Column } from "react-table"
-import { useTranslation } from "react-i18next"
-import Badge from "../../../components/fundamentals/badge"
-import LockIcon from "../../../components/fundamentals/icons/lock-icon"
-import { TaxRateTableEntries } from "./details"
+import { useMemo } from "react";
+import { Column } from "react-table";
+import { useTranslation } from "react-i18next";
+import Badge from "../../../components/fundamentals/badge";
+import LockIcon from "../../../components/fundamentals/icons/lock-icon";
+import { TaxRateTableEntries } from "./details";
 
 const useTaxRateColumns = () => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   const columns: Column<TaxRateTableEntries>[] = useMemo(
     () => [
       {
@@ -14,7 +14,7 @@ const useTaxRateColumns = () => {
         accessor: "name",
         Cell: ({ row, cell: { value } }) => {
           return (
-            <div className="text-grey-90 group-hover:text-violet-60 pl-2">
+            <div className="text-grey-90 group-hover:text-orange-60 pl-2">
               {row.original.type === "region" ? (
                 <div className="gap-x-xsmall text-grey-40 flex items-center">
                   <LockIcon size={"12"} /> {value}
@@ -23,7 +23,7 @@ const useTaxRateColumns = () => {
                 value
               )}
             </div>
-          )
+          );
         },
       },
       {
@@ -42,9 +42,9 @@ const useTaxRateColumns = () => {
       },
     ],
     []
-  )
+  );
 
-  return [columns]
-}
+  return [columns];
+};
 
-export default useTaxRateColumns
+export default useTaxRateColumns;

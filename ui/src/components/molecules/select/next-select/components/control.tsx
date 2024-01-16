@@ -1,20 +1,10 @@
-import clsx from "clsx"
-import {
-  ClearIndicatorProps,
-  ControlProps,
-  DropdownIndicatorProps,
-  GroupBase,
-  LoadingIndicatorProps,
-} from "react-select"
-import Spinner from "../../../../atoms/spinner"
-import ChevronDownIcon from "../../../../fundamentals/icons/chevron-down"
-import XCircleIcon from "../../../../fundamentals/icons/x-circle-icon"
+import clsx from "clsx";
+import { ClearIndicatorProps, ControlProps, DropdownIndicatorProps, GroupBase, LoadingIndicatorProps } from "react-select";
+import Spinner from "../../../../atoms/spinner";
+import ChevronDownIcon from "../../../../fundamentals/icons/chevron-down";
+import XCircleIcon from "../../../../fundamentals/icons/x-circle-icon";
 
-const Control = <
-  Option,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
->({
+const Control = <Option, IsMulti extends boolean, Group extends GroupBase<Option>>({
   className,
   cx,
   children,
@@ -38,7 +28,7 @@ const Control = <
           "control--menu-is-open": menuIsOpen,
         },
         clsx(
-          "rounded-rounded border-gray-20 bg-grey-5 focus-within:shadow-cta focus-within:border-violet-60 pl-small box-border flex overflow-hidden border p-0 transition-colors",
+          "rounded-rounded border-gray-20 bg-grey-5 focus-within:shadow-cta focus-within:border-orange-60 pl-small box-border flex overflow-hidden border p-0 transition-colors",
           {
             "h-xlarge": size === "sm",
             "h-10": size === "md" || !size,
@@ -48,25 +38,14 @@ const Control = <
         )
       )}
     >
-      <div
-        className={clsx(
-          "flex flex-1 items-center",
-          customStyles?.inner_control
-        )}
-      >
-        {children}
-      </div>
+      <div className={clsx("flex flex-1 items-center", customStyles?.inner_control)}>{children}</div>
     </div>
-  )
-}
+  );
+};
 
-export default Control
+export default Control;
 
-export const DropdownIndicator = <
-  Option,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
->({
+export const DropdownIndicator = <Option, IsMulti extends boolean, Group extends GroupBase<Option>>({
   innerProps,
   cx,
   children,
@@ -92,14 +71,10 @@ export const DropdownIndicator = <
     >
       {children || <ChevronDownIcon size={16} />}
     </div>
-  )
-}
+  );
+};
 
-export const LoadingIndicator = <
-  Option,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
->({
+export const LoadingIndicator = <Option, IsMulti extends boolean, Group extends GroupBase<Option>>({
   innerProps,
   className,
   cx,
@@ -117,14 +92,10 @@ export const LoadingIndicator = <
     >
       <Spinner size="small" variant="secondary" />
     </div>
-  )
-}
+  );
+};
 
-export const ClearIndicator = <
-  Option,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
->({
+export const ClearIndicator = <Option, IsMulti extends boolean, Group extends GroupBase<Option>>({
   innerProps,
   className,
   cx,
@@ -145,5 +116,5 @@ export const ClearIndicator = <
     >
       {children || <XCircleIcon size={16} />}
     </div>
-  )
-}
+  );
+};

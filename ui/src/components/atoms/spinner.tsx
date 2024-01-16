@@ -1,15 +1,12 @@
-import clsx from "clsx"
-import React from "react"
+import clsx from "clsx";
+import React from "react";
 
 export type SpinnerProps = {
-  size?: "large" | "medium" | "small"
-  variant?: "primary" | "secondary"
-}
+  size?: "large" | "medium" | "small";
+  variant?: "primary" | "secondary";
+};
 
-const Spinner: React.FC<SpinnerProps> = ({
-  size = "large",
-  variant = "primary",
-}) => {
+const Spinner: React.FC<SpinnerProps> = ({ size = "large", variant = "primary" }) => {
   return (
     <div
       className={clsx(
@@ -24,12 +21,12 @@ const Spinner: React.FC<SpinnerProps> = ({
           className={clsx(
             "animate-ring rounded-circle h-4/5 w-4/5 border-2 border-transparent",
             { "border-t-grey-0": variant === "primary" },
-            { "border-t-violet-60": variant === "secondary" }
+            { "border-t-orange-60": variant === "secondary" }
           )}
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Spinner
+export default Spinner;

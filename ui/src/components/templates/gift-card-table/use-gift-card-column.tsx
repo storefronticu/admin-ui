@@ -1,23 +1,20 @@
-import moment from "moment"
-import { useMemo } from "react"
-import { useTranslation } from "react-i18next"
-import { formatAmountWithSymbol } from "../../../utils/prices"
-import StatusIndicator from "../../fundamentals/status-indicator"
-import IconTooltip from "../../molecules/icon-tooltip"
-import Table from "../../molecules/table"
+import moment from "moment";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { formatAmountWithSymbol } from "../../../utils/prices";
+import StatusIndicator from "../../fundamentals/status-indicator";
+import IconTooltip from "../../molecules/icon-tooltip";
+import Table from "../../molecules/table";
 
 const useGiftCardTableColums = () => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   const columns = useMemo(
     () => [
       {
         Header: <div className="pl-2">{t("gift-card-table-code", "Code")}</div>,
         accessor: "code",
         Cell: ({ cell: { value }, index }) => (
-          <Table.Cell
-            key={index}
-            className="text-grey-90 group-hover:text-violet-60 w-[20%] pl-2"
-          >
+          <Table.Cell key={index} className="text-grey-90 group-hover:text-orange-60 w-[20%] pl-2">
             {value}
           </Table.Cell>
         ),
@@ -26,15 +23,8 @@ const useGiftCardTableColums = () => {
         Header: t("gift-card-table-order", "Order"),
         accessor: "order",
         Cell: ({ cell: { value }, index }) => (
-          <Table.Cell
-            key={index}
-            className="text-grey-90 group-hover:text-violet-60 w-[10%] pl-2"
-          >
-            {value && value?.display_id ? (
-              `#${value.display_id}`
-            ) : (
-              <span className="text-grey-90">-</span>
-            )}
+          <Table.Cell key={index} className="text-grey-90 group-hover:text-orange-60 w-[10%] pl-2">
+            {value && value?.display_id ? `#${value.display_id}` : <span className="text-grey-90">-</span>}
           </Table.Cell>
         ),
       },
@@ -71,43 +61,29 @@ const useGiftCardTableColums = () => {
               ) : (
                 <div className="flex items-center space-x-2">
                   <span>N / A</span>
-                  <IconTooltip
-                    content={t(
-                      "gift-card-table-region-has-been-deleted",
-                      "Region has been deleted"
-                    )}
-                  />
+                  <IconTooltip content={t("gift-card-table-region-has-been-deleted", "Region has been deleted")} />
                 </div>
               )
             ) : (
-              <StatusIndicator
-                title={t("gift-card-table-none", "None")}
-                variant="danger"
-              />
+              <StatusIndicator title={t("gift-card-table-none", "None")} variant="danger" />
             )}
           </Table.Cell>
         ),
       },
       {
-        Header: () => (
-          <div className="rounded-rounded flex w-full justify-end pr-2">
-            {t("gift-card-table-created", "Created")}
-          </div>
-        ),
+        Header: () => <div className="rounded-rounded flex w-full justify-end pr-2">{t("gift-card-table-created", "Created")}</div>,
         accessor: "created_at",
         Cell: ({ cell: { value }, index }) => (
           <Table.Cell className="pr-2" key={index}>
-            <div className="rounded-rounded flex w-full justify-end">
-              {moment(value).format("MMM Do YYYY")}
-            </div>
+            <div className="rounded-rounded flex w-full justify-end">{moment(value).format("MMM Do YYYY")}</div>
           </Table.Cell>
         ),
       },
     ],
     []
-  )
+  );
 
-  return [columns]
-}
+  return [columns];
+};
 
-export default useGiftCardTableColums
+export default useGiftCardTableColums;
